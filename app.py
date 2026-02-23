@@ -1,6 +1,6 @@
 import streamlit as st
 st.title("My mini-library app")
-if books not in st.session_state:
+if "books" not in st.session_state:
     st.session_state=[]
     st.header("Add book")
     title = st.text_input("Heading")
