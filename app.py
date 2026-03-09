@@ -19,7 +19,7 @@ if st.button("Add the book"):
         }
         st.session_state["books"].append(book)
         st.success("The book has been added successfully!")
-        st.ballons()
+        st.balloons()
     else:
         st.warning("Please fill in all fields.")
 
