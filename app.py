@@ -5,62 +5,62 @@ st.title("My Library App")
 if "books" not in st.session_state:
     st.session_state["books"] = []
 
-# ==========================================
-# ➕ Add a book
-# ==========================================
 st.header("➕ Add a book")
-title = st.text_input("Title", key="input_title")
-author = st.text_input("Author", key="input_author")
-price = st.number_input("Price", min_value=0.0, step=0.01)
+title = st.text_input("Title")
+author = st.text_input("Author")
+price = st.number_input("Price", min_value=0.0)
 
 if st.button("Add the book"):
-    if title.strip() and author.strip():
+    if title and author:
         book = {
             "title": title,
             "author": author,
             "price": price
         }
         st.session_state["books"].append(book)
-        st.success(f"Success! '{title}' is now on the shelf.")
+        st.success("The book has been added successfully!")
     else:
-        st.warning("Please enter both title and author. No 'anonymous' masterpieces allowed!")
+        st.warning("Please fill in all fields.")
 
-# ==========================================
-# 📚 Show all books
-# ==========================================
-st.divider()
 if st.button("Show all books"):
-    books = st.session_state["books"]
-    if not books:
-        st.info("The library is empty. Go buy some books!")
+    if len(st.session_state["books"]) == 0:
+        st.write("No books added yet.")
     else:
-        for b in books:
-            st.write(f"📖 **{b['title']}** | {b['author']} | ${b['price']}")
+        for book in st.session_state["books"]:
+            st.write("Title:", book["title"])
+            st.write("Author:", book["author"])
+            st.write("Price:", book["price"])
+            st.write("----------------------------")
 
-# ==========================================
-# 🔍 Search
-# ==========================================
-st.header("🔍 Search")
-search_query = st.text_input("Search by author or title")
-if st.button("Run Search"):
-    results = [
-        b for b in st.session_state["books"] 
-        if search_query.lower() in b["author"].lower() or search_query.lower() in b["title"].lower()
-    ]
-    if results:
-        for res in results:
-            st.write(f"✅ Found: {res}")
-    else:
-        st.error("Nothing found. Check your spelling!")
+st.header("🔍 Search by author")
+search_author = st.text_input("Enter author's name")
+if st.button("Search by author"):
+    found = False
+    for book in st.session_state["books"]:
+        if book["author"].lower() == search_author.lower():
+            st.write(book)
+            found = True
+    if found == False:
+        st.write("No books from this author were found.")
 
-# ==========================================
-# 💰 Statistics
-# ==========================================
+st.header("📖 Search by title")
+search_title = st.text_input("Enter book title")
+if st.button("Search by title"):
+    found = False
+    for book in st.session_state["books"]:
+        if book["title"].lower() == search_title.lower():
+            st.write(book)
+            found = True
+    if found == False:
+        st.write("No books with this title were found.")
+
 if st.button("Show the cheapest book"):
-    books = st.session_state["books"]
-    if not books:
-        st.write("Nothing to compare.")
+    if len(st.session_state["books"]) == 0:
+        st.write("No books available.")
     else:
-        cheapest = min(books, key=lambda x: x["price"])
-        st.balloons() # Немного праздника при поиске выгоды!
-        st.write(f"The cheapest book is: **{cheapest['title']}** for ${cheapest['price']}")
+        cheapest = min(st.session_state["books"], key=lambda x: x["price"])
+        st.write("The cheapest book is:", cheapest)
+
+st.divider()
+st.balloons()
+st.markdown("<h2 style='text-align: center; color: #FFD700;'>🎉 Congratulations! Your Library is ready! 📚</h2>", unsafe_allow_html=True)
