@@ -2,9 +2,9 @@ import streamlit as st
 
 st.title("My Library App")
 
-# Check if the list exists, if not - create it
+# 1. Исправленная инициализация
 if "books" not in st.session_state:
-    st.session_state.books = []
+    st.session_state["books"] = []
 
 # ==========================================
 # ➕ Add a book
@@ -21,24 +21,26 @@ if st.button("Add the book"):
             "author": author,
             "price": price
         }
-        st.session_state.books.append(book)
+        # Используем обращение через ключ
+        st.session_state["books"].append(book)
         st.success("The book has been added successfully!")
     else:
-        st.warning("Please enter both title and author. Even a ghostwriter has a name!")
+        st.warning("Please enter both title and author.")
 
 # ==========================================
 # 📚 Show all books
 # ==========================================
-if st.button(" Show all books"):
-    if len(st.session_state.books) == 0:
-        st.write("No books added yet. The shelves are gathering dust.")
+if st.button("Show all books"):
+    # Обращаемся к списку через ['books']
+    all_books = st.session_state["books"]
+    if len(all_books) == 0:
+        st.write("No books added yet.")
     else:
-        for book in st.session_state.books:
-            st.write("Title:", book["title"])
-            st.write("Author:", book["author"])
-            st.write("Price:", book["price"])
+        for book in all_books:
+            st.write(f"**Title:** {book['title']}")
+            st.write(f"**Author:** {book['author']}")
+            st.write(f"**Price:** {book['price']}")
             st.write("----------------------------")
-
 # ==========================================
 # 🔍 Search by author
 # ==========================================
