@@ -2,7 +2,7 @@ import streamlit as st
 
 st.title("My Library App")
 
-# 1. Исправленная инициализация
+# 1. Safe Initialization
 if "books" not in st.session_state:
     st.session_state["books"] = []
 
@@ -21,9 +21,8 @@ if st.button("Add the book"):
             "author": author,
             "price": price
         }
-        # Используем обращение через ключ
         st.session_state["books"].append(book)
-        st.success("The book has been added successfully!")
+        st.success(f"Success! '{title}' is now on the shelf.")
     else:
         st.warning("Please enter both title and author.")
 
@@ -31,57 +30,53 @@ if st.button("Add the book"):
 # 📚 Show all books
 # ==========================================
 if st.button("Show all books"):
-    # Обращаемся к списку через ['books']
     all_books = st.session_state["books"]
     if len(all_books) == 0:
-        st.write("No books added yet.")
+        st.write("The library is empty. Go buy some books!")
     else:
         for book in all_books:
             st.write(f"**Title:** {book['title']}")
             st.write(f"**Author:** {book['author']}")
-            st.write(f"**Price:** {book['price']}")
+            st.write(f"**Price:** ${book['price']}")
             st.write("----------------------------")
+
 # ==========================================
 # 🔍 Search by author
 # ==========================================
 st.header("🔍 Search by author")
-search_author = st.text_input("Enter author's name")
+search_author = st.text_input("Enter author's name", key="author_search")
 if st.button("Search by author"):
     found = False
-    
-    for book in st.session_state.books:
-        if book["author"].lower() == search_author.lower():
+    for book in st.session_state["books"]:
+        if search_author.lower() in book["author"].lower():
             st.write(book)
             found = True
             
-    if found == False:
+    if not found:
         st.write("No books from this author were found.")
 
 # ==========================================
 # 📖 Search by title
 # ==========================================
 st.header("📖 Search by title")
-search_title = st.text_input("Enter book title")
+search_title = st.text_input("Enter book title", key="title_search")
 if st.button("Search by title"):
     found = False
-    
-    for book in st.session_state.books:
-        if book["title"].lower() == search_title.lower():
+    for book in st.session_state["books"]:
+        if search_title.lower() in book["title"].lower():
             st.write(book)
             found = True
             
-    if found == False:
+    if not found:
         st.write("No books with this title were found.")
 
 # ==========================================
 # 💰 Statistics
 # ==========================================
 if st.button("Show the cheapest book"):
-    if len(st.session_state.books) == 0:
-        st.write("Nothing to compare. Prices are currently imaginary.")
+    books_list = st.session_state["books"]
+    if len(books_list) == 0:
+        st.write("Nothing to compare yet.")
     else:
-        cheapest = st.session_state.books[0]
-        for book in st.session_state.books:
-            if book["price"] < cheapest["price"]:
-                cheapest = book
+        cheapest = min(books_list, key=lambda x: x["price"])
         st.write("The cheapest book is:", cheapest)
