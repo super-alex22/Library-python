@@ -19,6 +19,7 @@ if st.button("Add the book"):
         }
         st.session_state["books"].append(book)
         st.success("The book has been added successfully!")
+        st.ballons()
     else:
         st.warning("Please fill in all fields.")
 
@@ -62,5 +63,4 @@ if st.button("Show the cheapest book"):
         st.write("The cheapest book is:", cheapest)
 
 st.divider()
-st.balloons()
 st.markdown("<h2 style='text-align: center; color: #FFD700;'>🎉 Congratulations! Your Library is ready! 📚</h2>", unsafe_allow_html=True)
