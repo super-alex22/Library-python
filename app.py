@@ -4,7 +4,17 @@ st.title("My Library App")
 
 if "books" not in st.session_state:
     st.session_state["books"] = []
-
+if st.button("🚀 Load test books"):
+    test_data = [
+        {"title": "The Hobbit", "author": "J.R.R. Tolkien", "price": 15.0},
+        {"title": "1984", "author": "George Orwell", "price": 12.0},
+        {"title": "Harry Potter", "author": "J.K. Rowling", "price": 25.0},
+        {"title": "Dune", "author": "Frank Herbert", "price": 20.0},
+        {"title": "The Witcher", "author": "Andrzej Sapkowski", "price": 18.0}
+    ]
+    st.session_state["books"].extend(test_data)
+    st.success("Test books added!")
+    st.rerun()
 st.header("➕ Add a book")
 title = st.text_input("Title")
 author = st.text_input("Author")
