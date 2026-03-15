@@ -83,25 +83,20 @@ if st.button("Show the cheapest book"):
     else:
         cheapest = min(st.session_state["books"], key=lambda x: x["price"])
         st.write("The cheapest book is:", cheapest)
-
 st.header("Delete books")
 search_delete = st.text_input("Enter book author or title")
 math_check = st.number_input("Solve 5 + 15 to confirm deletion", value=0)
+
 if st.button("Start search for deleting books"):
     found_delete = False
     for book in st.session_state["books"][:]:
         if search_delete.lower() in book["author"].lower() or search_delete.lower() in book["title"].lower():
-            show_scary_popup(book, math_check)
-            st.write(book)
             found_delete = True
-            if math_check == 20:
-                st.session_state["books"].remove(book)
-                st.success(f"Succesfully removed '{book['title']}' from your library.")
-                st.rerun()
-            else:
-                st.error("You can't delete the book, if you can not solve math.")
-    if found_delete  == False:
-        st.write("No books from this author were found.")
+            show_scary_popup(book, math_check)
+            break
+            
+    if found_delete == False:
+        st.write("No books matching your request were found.")
         
 st.divider()
 st.markdown("<h2 style='text-align: center; color: #FFD700;'>🎉 Congratulations! Your Library is ready! 📚</h2>", unsafe_allow_html=True)
