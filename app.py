@@ -1,6 +1,18 @@
 import streamlit as st
 
 st.title("My Library App")
+@st.dialog("⚠️ SYSTEM CRITICAL ERROR")
+def show_scary_popup(book_to_kill, math_result):
+    st.error("DATABASE BREACH DETECTED!")
+    st.write(f"Are you sure you want to delete '{book_to_kill['title']}'?")
+    
+    if st.button("CONFIRM DESTRUCTION"):
+        if math_result == 20:
+            st.session_state["books"].remove(book_to_kill)
+            st.success("Data wiped.")
+            st.rerun()
+        else:
+            st.error("WRONG CODE! ACCESS DENIED.")
 
 if "books" not in st.session_state:
     st.session_state["books"] = []
@@ -79,6 +91,7 @@ if st.button("Start search for deleting books"):
     found_delete = False
     for book in st.session_state["books"][:]:
         if search_delete.lower() in book["author"].lower() or search_delete.lower() in book["title"].lower():
+            show_scary_popup(book, math_check)
             st.write(book)
             found_delete = True
             if math_check == 20:
