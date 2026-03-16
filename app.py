@@ -33,7 +33,6 @@ if st.button("🚀 Load test books"):
         
         if not is_duplicate:
             st.session_state["books"].append(test_book)
-    st.session_state["books"].extend(test_data)
     st.success("Test books added!")
     st.rerun()
 st.header("➕ Add a book")
