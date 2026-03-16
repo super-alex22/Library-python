@@ -12,7 +12,7 @@ def show_scary_popup(book_to_kill, math_result):
             st.success("Data wiped.")
             st.rerun()
         else:
-            st.error("WRONG CODE! ACCESS DENIED.")
+            st.error("You can not delete book, if you can not solve simple math.")
 
 if "books" not in st.session_state:
     st.session_state["books"] = []
