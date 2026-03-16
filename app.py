@@ -60,7 +60,7 @@ search_author = st.text_input("Enter author's name")
 if st.button("Search by author"):
     found = False
     for book in st.session_state["books"]:
-        if book["author"].lower() == search_author.lower():
+        if book["author"].lower() in search_author.lower():
             st.write(book)
             found = True
     if found == False:
