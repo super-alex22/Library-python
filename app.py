@@ -24,6 +24,15 @@ if st.button("🚀 Load test books"):
         {"title": "Dune", "author": "Frank Herbert", "price": 20.0},
         {"title": "The Witcher", "author": "Andrzej Sapkowski", "price": 18.0}
     ]
+    for test_book in test_data:
+        is_duplicate = False
+        for existing_book in st.session_state["books"]:
+            if existing_book["title"] == test_book["title"]:
+                is_duplicate = True
+                break
+        
+        if not is_duplicate:
+            st.session_state["books"].append(test_book)
     st.session_state["books"].extend(test_data)
     st.success("Test books added!")
     st.rerun()
