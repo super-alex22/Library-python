@@ -34,7 +34,7 @@ if st.button("🚀 Load test books"):
         if not is_duplicate:
             st.session_state["books"].append(test_book)
     st.success("Test books added!")
-    st.rerun()
+    st.rerun() # check if book is not in list already
 st.header("➕ Add a book")
 title = st.text_input("Title")
 author = st.text_input("Author")
@@ -79,7 +79,7 @@ search_title = st.text_input("Enter book title")
 if st.button("Search by title"):
     found = False
     for book in st.session_state["books"]:
-        if book["title"].lower() == search_title.lower():
+        if search_title.lower() in book["title"].lower():
             st.write(book)
             found = True
     if found == False:
